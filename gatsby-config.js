@@ -47,25 +47,32 @@ module.exports = {
       appId: process.env.FB_APP_ID ? process.env.FB_APP_ID : ""
     }
   },
+  pathPrefix: '__GATSBY_IPFS_PATH_PREFIX__',
+
   plugins: [
+    {
+    resolve: `gatsby-plugin-create-client-paths`,
+    options: { prefixes: [`/ipfs/*`] },
+    },
     `gatsby-plugin-styled-jsx`, // the plugin's code is inserted directly to gatsby-node.js and gatsby-ssr.js files
     `gatsby-plugin-styled-jsx-postcss`, // as above
+    `gatsby-plugin-seo-export-master`,
     {
       resolve: `gatsby-plugin-layout`,
       options: {
         component: require.resolve(`./src/layouts/`)
       }
     },
-    {
+  /*  {
       resolve: `gatsby-plugin-algolia`,
       options: {
-        appId: process.env.ALGOLIA_APP_ID ? process.env.ALGOLIA_APP_ID : "",
-        apiKey: process.env.ALGOLIA_ADMIN_API_KEY ? process.env.ALGOLIA_ADMIN_API_KEY : "",
-        indexName: process.env.ALGOLIA_INDEX_NAME ? process.env.ALGOLIA_INDEX_NAME : "",
+        appId: process.env.ALGOLIA_APP_ID ? process.env.ALGOLIA_APP_ID : "QL6AS3FZW1",
+        apiKey: process.env.ALGOLIA_ADMIN_API_KEY ? process.env.ALGOLIA_ADMIN_API_KEY : "698456cbd3dcb9f754d6377ffe3c4d80",
+        indexName: process.env.ALGOLIA_INDEX_NAME ? process.env.ALGOLIA_INDEX_NAME : "startertest",
         queries,
         chunkSize: 10000 // default: 1000
       }
-    },
+    }, */
     {
       resolve: `gatsby-source-filesystem`,
       options: {
@@ -264,11 +271,24 @@ module.exports = {
     {
       resolve: `gatsby-plugin-sitemap`
     },
+      'gatsby-plugin-ipfs',
+
     {
       resolve: "gatsby-plugin-react-svg",
       options: {
         include: /svg-icons/
       }
     }
+    // ,
+    //    gatsby-plugin-crypowerk-blockchain` should be the last plugin in your gatsby-node.js file
+    //    or at least after all files in public folder are created
+        // {
+        //   resolve: `gatsby-plugin-crypowerk-blockchain`,
+        //   options: { // For sealing you need the API Key and API Credential for your Cryptowerk.com account.
+        //     apiKey: process.env.CRYPTOWERK_APIKEYS, // Concatenation of the API key and secret separated by a space.
+        //     hashoutputfile: './public/hashtree.json', // *Optional*  The hash tree of public folder will create this json file
+        //     outputfile: './public/cryptowerk_seal.json' // Where do you want the seal to be stored? TODO support creating new directory
+        //   }
+        // },
   ]
 };
